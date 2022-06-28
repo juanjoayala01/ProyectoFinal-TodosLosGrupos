@@ -115,3 +115,33 @@ def main(principios_activos):
         print(f"La moda es : {mode_}\n")
         print(f"El precio máximo es : {max_}")
         print(f"Link: {datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]}")
+        
+        if "salcobrand" in datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]:
+            print("Nombre medicamento:", nombreSalcobrand(
+                datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]))
+            print("Descripción medicamento:", descripcionSalcobrand(
+                datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]))
+        elif "farmex" in datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]:
+            print("Nombre medicamento:", nombreFarmex(
+                datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]))
+            print("Descripción medicamento:", descripcionFarmex(
+                datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]))
+        elif "ahumada" in datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]:
+            print("Nombre medicamento:", nombreAhumada(
+                datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]))
+            print("Descripción medicamento:", descripcionAhumada(
+                datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]))
+        print()
+        # convertir las estadisticas a csv
+        estadisticas = pd.DataFrame({"Precio_minimo": [min_], "Precio_promedio": [mean_], "Desviacion_estandar": [std_], "Coeficiente_kurtosis": [
+                                    kurt_], "Mediana": [median_], "Coeficiente_asimetría": [skew_], "Precio_maximo": [max_], "Varianza": [var_]})
+        estadisticas.to_csv(f"{principio}_estadisticas.csv", index=False)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--text", help="archivo con principios activos",
+                        required=True)
+    args = parser.parse_args()
+    main(args.text)
+
