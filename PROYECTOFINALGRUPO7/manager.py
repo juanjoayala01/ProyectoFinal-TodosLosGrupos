@@ -8,6 +8,7 @@ from rich import print
 
 
 class Estadisticas():
+    #define los valores iniciales de las estadisticas (Laura Martinez)
     def __init__(self):
         self.max = 0
         self.min = 0
@@ -32,11 +33,11 @@ class Estadisticas():
     def get_std(self, df):
         self.std = df.std()
         return self.std
-    
+    #consigue la mediana en la columna de ventas (Laura Martinez)
     def get_median(self, df):
         self.median = df.median()
         return self.median
-
+    #consigue la varianza en la columna de ventas (Laura Martinez)
     def get_var(self, df):
         self.var = df.var()
         return self.var
