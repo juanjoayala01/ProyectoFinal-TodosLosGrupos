@@ -23,10 +23,12 @@ class Estadisticas():
         self.min = df.min()
         return self.min
     
+    #consigue el promedio en la columna de ventas (Josefina Olmos)
     def get_mean(self, df):
         self.media = df.mean()
         return self.media
 
+    #consigue la desviacion estandar en la columna de ventas (Josefina Olmos)
     def get_std(self, df):
         self.std = df.std()
         return self.std
