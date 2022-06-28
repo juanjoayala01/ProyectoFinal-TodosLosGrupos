@@ -33,19 +33,23 @@ class Estadisticas():
     def get_std(self, df):
         self.std = df.std()
         return self.std
+    
     #consigue la mediana en la columna de ventas (Laura Martinez)
     def get_median(self, df):
         self.median = df.median()
         return self.median
+    
     #consigue la varianza en la columna de ventas (Laura Martinez)
     def get_var(self, df):
         self.var = df.var()
         return self.var
     
+    #consifue la simetria de los datos (Maca Mujica)
     def get_skew(self, df):
         self.skew = df.skew()
         return self.skew
-
+    
+    #consigue la curtosis (Maca Mujica)
     def get_kurtosis(self, df):
         self.kurtosis = df.kurtosis()
         return self.kurtosis
@@ -111,7 +115,8 @@ class Scraper():
         df = pd.DataFrame(rows, columns=["Farmacia", "Nombre", "Precio_Original", "Precio_Venta", "Precio_Venta_UF", "Url"])
         print(df)
         return df
-
+    
+#consigue los datos de los productos de los medicamentos de la farmacia ahumada
     def getFarmaciaAhumada(self, medicamento):
         l = []
 
@@ -159,6 +164,7 @@ class Scraper():
         print(df)
         return df
     
+   # consigue los datos de los productos de la farmacia FarmEx 
     def farmEx(self, medicamento):
         l = []
         pagina = 1
@@ -190,6 +196,7 @@ class Scraper():
         print(df)
         return df
 
+    #consigue el valor de las uf
     def get_ufPM(self):
         url = "https://www.bcentral.cl/inicio"
         response = requests.get(url)
