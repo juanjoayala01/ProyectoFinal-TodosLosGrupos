@@ -13,10 +13,12 @@ class Estadisticas():
         self.min = 0
         self.media = 0
     
+    # consigue el maximo en la columna de ventas
     def get_max(self, df):
         self.max = df.max()
         return self.max
-
+    
+    #consigue el minimo en la columna de ventas
     def get_min(self, df):
         self.min = df.min()
         return self.min
@@ -60,13 +62,15 @@ class Estadisticas():
 class Scraper():
     def __init__(self):
         pass
-
+    
+    # consigue el valor a la fecha de la UF
     def getUF(self):
         url = "https://www.mindicador.cl/api/uf"
         response = requests.get(url)
         response = json.loads(response.text.encode("utf-8"))
         return response['serie'][0]['valor']
-
+    
+    # consigue el ID de los productos de la base de datos de la farmacia salcobrand
     def getSKUs(self, query):
         params = {"requests": [{
             "indexName": "sb_variant_production",
@@ -81,7 +85,7 @@ class Scraper():
             skus.append(hit['sku'])
         return [skus, query]
 
-
+    # consigue los datos de los productos de la farmacia salcobrand en base a los IDs de los productos
     def farmaciaSalcobrand(self, skus):
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0'}
         itemIds = ",".join(skus[0])
