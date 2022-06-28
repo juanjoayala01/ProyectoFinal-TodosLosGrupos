@@ -69,3 +69,61 @@ class Scraper():
         df = pd.DataFrame(rows, columns=["Farmacia", "Nombre", "Precio_Original", "Precio_Venta", "Precio_Venta_UF", "Url"])
         print(df)
         return df
+
+class Scraper():
+    def __init__(self):
+        pass
+
+    def getUF(self):
+        url = "https://www.mindicador.cl/api/uf"
+        response = requests.get(url)
+        response = json.loads(response.text.encode("utf-8"))
+        return response['serie'][0]['valor']
+
+
+    def getFarmaciaAhumada(self, medicamento):
+        l = []
+
+        web = "https://www.farmaciasahumada.cl/catalogsearch/result/?q="
+        url = web + medicamento
+
+        contador = 0
+        _UF = self.getUF()
+        while(True):
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, "html.parser")
+            mainList = soup.find(
+                class_='products list items product-items').find_all("li")
+            searchCount = soup.find(class_='left-search-count').string
+            print(searchCount if searchCount == 0 else "", end="")
+            for tag in mainList:
+                sub = tag.select(
+                    "li > div > div[class~='product-item-details']")[0]
+                cash_venta = sub.select(
+                    "span[class~='price-final_price']  span[class='price']")[0].string
+                cash_orig = sub.select(
+                    "span[data-price-type='oldPrice'] > span[class='price']")
+                if (len(cash_orig) == 0):
+                    cash_orig = cash_venta
+                else:
+                    cash_orig = cash_orig[0].string
+                precioUF2CLP = float(cash_venta.replace("$","").replace(".","")) / _UF
+                cash_orig = cash_orig.replace("$","").replace(".","")
+                cash_venta = cash_venta.replace("$","").replace(".","")
+                url2 = sub.select("strong > a")[0].get("href")
+                row = ["Farmacia Ahumada", medicamento, float(cash_orig), float(cash_venta), float(precioUF2CLP), url2]
+                l.append(row)
+                contador += 1
+            try:
+                siguiente = soup.find_all(class_='items pages-items')[-1]
+                siguiente = siguiente.select("li[class~='pages-item-next'] > a")
+                if (len(siguiente) > 0):
+                    url = siguiente[0].attrs['href']
+                else:
+                    break
+            except:
+                break
+
+        df = pd.DataFrame(l, columns=["Farmacia", "Nombre", "Precio_Original", "Precio_Venta", "Precio_Venta_UF", "Url"])
+        print(df)
+        return df
