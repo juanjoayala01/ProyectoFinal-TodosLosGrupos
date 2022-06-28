@@ -113,3 +113,34 @@ class Scraper():
         df = pd.DataFrame(l, columns=["Farmacia", "Nombre", "Precio_Original", "Precio_Venta", "Precio_Venta_UF", "Url"])
         print(df)
         return df
+    
+    def farmEx(self, medicamento):
+        l = []
+        pagina = 1
+        flag = True
+        _UF = self.getUF()
+        while flag:
+            url = f"https://farmex.cl/search?page={pagina}&q={medicamento}+-tag%3Adelete&type=product"
+            # print(url)
+            response = requests.get(url=url)
+            soup = BeautifulSoup(response.text, "html.parser")
+            mainList = soup.find_all(class_='pc-inner')[:-2]
+            for tag in mainList:
+                try:
+                    cash_orig = None
+                    cash_venta = float(tag.select("span[class~='price']")[0].string.replace("$","").replace(".","").replace(" ",""))
+                except:
+                    try:
+                        cash_orig = tag.select("span[class~='price-compare']")[0].string.replace("$","").replace(".","").replace(" ","")
+                        cash_venta = float(tag.select("span[class~='price-sale']")[0].string.replace("$","").replace(".","").replace(" ",""))
+                    except:
+                        flag = False
+                precioUF2CLP = cash_venta / _UF
+                url2 = 'https://farmex.cl' + tag.select("h5[class~='product-name']")[0].find('a', href=True)['href']
+                row = ["Farmacia Farmex", medicamento, float(cash_orig) if cash_orig != None else cash_orig, float(cash_venta), float(precioUF2CLP), url2]
+                l.append(row)
+            pagina += 1
+
+        df = pd.DataFrame(l, columns=["Farmacia", "Nombre", "Precio_Original", "Precio_Venta", "Precio_Venta_UF", "Url"])
+        print(df)
+        return df
