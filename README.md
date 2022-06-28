@@ -1,6 +1,6 @@
 # ProyectoFinal-TodosLosGrupos
 Integrantes
-- Juan Ignacion Ayala
+- Juan Ignacio Ayala
 - Pablo Moya
 - Macarena Mujica
 - Laura Martinez
