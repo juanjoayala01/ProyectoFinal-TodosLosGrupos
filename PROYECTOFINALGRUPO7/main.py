@@ -20,6 +20,18 @@ def descripcionAhumada(url):
         return (busqueda_med[1].text)
     except:
         return ("No especifica")
+   
+def nombreSalcobrand(url):
+    response = requests.get(url)
+    data = BeautifulSoup(response.content, "html.parser")
+    busqueda_med = data.find_all('h2', class_='product-info')
+    return (busqueda_med[0].text)
+
+def descripcionSalcobrand(url):
+    response = requests.get(url)
+    data = BeautifulSoup(response.content, "html.parser")
+    busqueda_med = data.find_all('div', class_='description-area')
+    return (busqueda_med[0].text)
 
 def main(principios_activos):
     scraper = mg.Scraper()
