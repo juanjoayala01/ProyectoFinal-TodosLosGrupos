@@ -76,3 +76,42 @@ def main(principios_activos):
         est = mg.Estadisticas()
         max_ = est.get_max(df=datos["Precio_Venta"])
         min_ = est.get_min(df=datos["Precio_Venta"])
+        mean_ = est.get_mean(df=datos["Precio_Venta"])
+        std_ = est.get_std(df=datos["Precio_Venta"])
+        kurt_ = est.get_kurtosis(df=datos["Precio_Venta"])
+        skew_ = est.get_skew(df=datos["Precio_Venta"])
+        median_ = est.get_median(df=datos["Precio_Venta"])
+        qs_ = est.get_quantiles(df=datos["Precio_Venta"])
+        var_ = est.get_var(df=datos["Precio_Venta"])
+        mode_ = est.get_mode(df=datos["Precio_Venta"])
+
+        print()
+        print(f"El precio mínimo es : {min_}")
+        print(
+            f"Link: {datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]}")
+        if "salcobrand" in datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]:
+            print("Nombre medicamento:", nombreSalcobrand(
+                datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]))
+            print("Descripción medicamento:", descripcionSalcobrand(
+                datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]))
+        elif "farmex" in datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]:
+            print("Nombre medicamento:", nombreFarmex(
+                datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]))
+            print("Descripción medicamento:", descripcionFarmex(
+                datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]))
+        elif "ahumada" in datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]:
+            print("Nombre medicamento:", nombreAhumada(
+                datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]))
+            print("Descripción medicamento:", descripcionAhumada(
+                datos.loc[datos['Precio_Venta'] == min_]['Url'].values[0]))
+        print()
+        print(f"El precio promedio es : {mean_}\n")
+        print(f"La desviación estándar es : {std_}\n")
+        print(f"El coeficiente de kurtosis es : {kurt_}\n")
+        print(f"La mediana es : {median_}\n")
+        print(f"El coeficiente de asimetría es : {skew_}\n")
+        print(f"Los cuantiles son : {qs_}\n")
+        print(f"La varianza es : {var_}\n")
+        print(f"La moda es : {mode_}\n")
+        print(f"El precio máximo es : {max_}")
+        print(f"Link: {datos.loc[datos['Precio_Venta'] == max_]['Url'].values[0]}")
