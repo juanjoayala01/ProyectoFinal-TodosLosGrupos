@@ -33,6 +33,24 @@ def descripcionSalcobrand(url):
     busqueda_med = data.find_all('div', class_='description-area')
     return (busqueda_med[0].text)
 
+def nombreFarmex(url):
+    response = requests.get(url)
+    data = BeautifulSoup(response.content, "html.parser")
+    busqueda_med = data.find_all('h1', class_='page-heading')
+    busqueda_med = busqueda_med[0].text.split(" ")
+    return (busqueda_med[0])
+
+
+def descripcionFarmex(url):
+    response = requests.get(url)
+    data = BeautifulSoup(response.content, "html.parser")
+    busqueda_med = data.find_all('div', class_='tab-pane active')
+    descripcion = ""
+    for i in busqueda_med:
+        descripcion = descripcion+i.text
+    return (descripcion)
+
+
 def main(principios_activos):
     scraper = mg.Scraper()
     scraper.get_ufPM()
