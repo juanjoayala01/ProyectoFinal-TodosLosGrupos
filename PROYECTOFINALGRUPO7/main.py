@@ -5,13 +5,14 @@ from rich import print
 import argparse
 import requests
 
-
+# Consigue el nombre del medicamento en la farmacia ahumada
 def nombreAhumada(url):
     response = requests.get(url)
     data = BeautifulSoup(response.content, "html.parser")
     busqueda_med = data.find_all('h3', class_='product-brand')
     return (busqueda_med[0].text)
 
+# Consigue la descripcion del medicamento en la farmacia ahumada
 def descripcionAhumada(url):
     response = requests.get(url)
     data = BeautifulSoup(response.content, "html.parser")
@@ -58,7 +59,8 @@ def main(principios_activos):
     principios = principios_activos.readlines()
     principios_activos.close()
     principios = [x.strip() for x in principios]
-
+    
+    # recorre cada principio activo dentro del archivo "principios_activos.txt"
     for principio in principios:
         print(f"Busqueda para {principio}")
         datos_au = scraper.getFarmaciaAhumada(principio)
@@ -67,7 +69,8 @@ def main(principios_activos):
         print()
         datos_fe = scraper.farmEx(principio)
         print()
-
+        
+        # concatena los dataframe de cada farmacia
         datos = pd.concat([datos_au, datos_sb, datos_fe])
 
         # convert datos to csv
