@@ -13,12 +13,12 @@ class Estadisticas():
         self.min = 0
         self.media = 0
     
-    # consigue el maximo en la columna de ventas
+    # consigue el maximo en la columna de ventas (Juan Ayala)
     def get_max(self, df):
         self.max = df.max()
         return self.max
     
-    #consigue el minimo en la columna de ventas
+    #consigue el minimo en la columna de ventas (Juan Ayala)
     def get_min(self, df):
         self.min = df.min()
         return self.min
@@ -47,14 +47,17 @@ class Estadisticas():
         self.kurtosis = df.kurtosis()
         return self.kurtosis
     
+    #Consigue los cuartiles de la columna ventas (Pablo Moya)
     def get_quantiles(self, df):
         self.quantiles = df.quantile([0.25, 0.5, 0.75])
         return str(self.quantiles)
-
+    
+    #Consigue la varianza de la columna ventas (Pablo Moya)
     def get_variance(self, df):
         self.variance = df.var()
         return self.variance
     
+    #Consigue la moda de la columna de ventas (Pablo Moya)
     def get_mode(self, df):
         self.mode = df.mode()
         return self.mode
