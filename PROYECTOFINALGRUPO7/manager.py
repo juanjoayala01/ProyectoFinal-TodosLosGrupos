@@ -36,6 +36,14 @@ class Estadisticas():
     def get_var(self, df):
         self.var = df.var()
         return self.var
+    
+    def get_skew(self, df):
+        self.skew = df.skew()
+        return self.skew
+
+    def get_kurtosis(self, df):
+        self.kurtosis = df.kurtosis()
+        return self.kurtosis
 
 
       
