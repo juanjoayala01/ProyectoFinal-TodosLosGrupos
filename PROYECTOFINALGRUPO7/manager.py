@@ -20,6 +20,14 @@ class Estadisticas():
     def get_min(self, df):
         self.min = df.min()
         return self.min
+    
+    def get_mean(self, df):
+        self.media = df.mean()
+        return self.media
+
+    def get_std(self, df):
+        self.std = df.std()
+        return self.std
 
       
 class Scraper():
