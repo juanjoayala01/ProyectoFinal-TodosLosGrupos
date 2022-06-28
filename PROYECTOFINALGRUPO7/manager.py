@@ -28,6 +28,15 @@ class Estadisticas():
     def get_std(self, df):
         self.std = df.std()
         return self.std
+    
+    def get_median(self, df):
+        self.median = df.median()
+        return self.median
+
+    def get_var(self, df):
+        self.var = df.var()
+        return self.var
+
 
       
 class Scraper():
@@ -152,3 +161,27 @@ class Scraper():
         df = pd.DataFrame(l, columns=["Farmacia", "Nombre", "Precio_Original", "Precio_Venta", "Precio_Venta_UF", "Url"])
         print(df)
         return df
+
+    def get_ufPM(self):
+        url = "https://www.bcentral.cl/inicio"
+        response = requests.get(url)
+        data = BeautifulSoup(response.content, "html.parser")
+        fecha = data.find_all('p', class_='basic-text f-opensans-semibold c-beige-nb-1 fs-1 mb-1 text-center text-lg-left')
+        fecha = fecha[0].text.replace(" de ", "/")
+        mes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
+            "Noviembre", "Diciembre"]
+        for i in range(len(mes)):
+            if mes[i] in fecha:
+                indice = i + 1
+                fecha = fecha.replace(mes[i], f"{i + 1}")
+        uf = data.find_all('p', class_='basic-text fs-2 f-opensans-bold text-center c-blue-nb-2')
+        uf = uf[0].text
+        uf = uf.replace(".", "")[1:]
+        if indice < 10:
+            fecha = fecha[0:3] + "0" + fecha[3:]
+        lista = [fecha, float(uf.replace(",", ""))]
+        df = pd.DataFrame(lista)
+        nombre="parÃ¡metros.csv"
+        df.to_csv(nombre, encoding='utf-8', header=False, index=False)
+        return
+    
