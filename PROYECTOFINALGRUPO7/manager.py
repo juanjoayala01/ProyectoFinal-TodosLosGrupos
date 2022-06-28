@@ -32,9 +32,6 @@ class Scraper():
         response = json.loads(response.text.encode("utf-8"))
         return response['serie'][0]['valor']
 
-
-
-
     def getSKUs(self, query):
         params = {"requests": [{
             "indexName": "sb_variant_production",
@@ -69,17 +66,6 @@ class Scraper():
         df = pd.DataFrame(rows, columns=["Farmacia", "Nombre", "Precio_Original", "Precio_Venta", "Precio_Venta_UF", "Url"])
         print(df)
         return df
-
-class Scraper():
-    def __init__(self):
-        pass
-
-    def getUF(self):
-        url = "https://www.mindicador.cl/api/uf"
-        response = requests.get(url)
-        response = json.loads(response.text.encode("utf-8"))
-        return response['serie'][0]['valor']
-
 
     def getFarmaciaAhumada(self, medicamento):
         l = []
