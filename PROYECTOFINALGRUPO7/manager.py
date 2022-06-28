@@ -44,9 +44,19 @@ class Estadisticas():
     def get_kurtosis(self, df):
         self.kurtosis = df.kurtosis()
         return self.kurtosis
+    
+    def get_quantiles(self, df):
+        self.quantiles = df.quantile([0.25, 0.5, 0.75])
+        return str(self.quantiles)
 
+    def get_variance(self, df):
+        self.variance = df.var()
+        return self.variance
+    
+    def get_mode(self, df):
+        self.mode = df.mode()
+        return self.mode
 
-      
 class Scraper():
     def __init__(self):
         pass
